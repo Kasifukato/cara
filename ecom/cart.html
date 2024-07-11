@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="shop.css">
+    <link rel="stylesheet" href="cart.css">
+</head>
+<body>
+    <section id="header">
+        <a href="#"><img src="img/logo.png" class="logo" alt=""></a>
+
+        <div>
+            <ul id="navbar">
+                <li><a  href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li id="lgbag"><a href="cart.html" class="active"><i class="far fa-shopping-bag"></i></a></li>
+                <a href="#" id="close"><i class="far fa-times"></i></a>
+            </ul>
+        </div>
+        <div id="mobile">
+            <a href="cart.html"><i class="far fa-shopping-bag"></i></a>
+            <i id="bar" class="fas fa-outdent"></i>
+        </div>
+
+    </section>
+
+    <section id="page-header" class="cart-header">
+        <h2>#Cart</h2>
+        <p>Your Shopping Cart</p>
+    </section>
+
+    <!-- Cart Section -->
+    <section id="cart" class="section-p1">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>REMOVE</td>
+                    <td>IMAGE</td>
+                    <td>PRODUCT</td>
+                    <td>PRICE</td>
+                    <td>QUANTITY</td>
+                    <td>SUBTOTAL</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="#"><i class="far fa-times-circle close-icon"></i></a></td>
+                    <td><img src="img/products/f1.jpg" alt="Product 1"></td>
+                    <td>Cartoon Astronaut T-Shirts</td>
+                    <td class="per">Rs.3999</td>
+                    <td><input type="number" class="product-quantity" value="1" min="1"></td>
+                    <td class="subtotal">Rs.3999</td>
+                </tr>
+                <!-- <tr>
+                    <td><a href="#"><i class="far fa-times-circle close-icon"></i></a></td>
+                    <td><img src="img/products/f2.jpg" alt="Product 2"></td>
+                    <td>Cartoon Astronaut T-Shirts</td>
+                    <td class="per">Rs.3999</td>
+                    <td><input type="number" class="product-quantity" value="1" min="1"></td>
+                    <td class="subtotal">Rs.3999</td>
+                </tr> -->
+                <!-- Additional rows here if needed -->
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Cart Totals Section -->
+    <section id="cart-add" class="section-p1">
+        <div id="coupon">
+            <h3>Apply Coupon</h3>
+            <div>
+                <input type="text" placeholder="Enter Your Coupon">
+                <button class="normal">Apply</button>
+            </div>
+        </div>
+        <div id="subtotal">
+            <h3>Cart Totals</h3>
+            <table>
+                <tr>
+                    <td>Cart Subtotal</td>
+                    <td class="grand-total">Rs.3999</td>
+                </tr>
+                <tr>
+                    <td>Shipping</td>
+                    <td>Free</td>
+                </tr>
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td class="grand-total"><strong>Rs.3999</strong></td>
+                </tr>
+            </table>
+            <div class="checkout-details">
+                <div class="checkout-logos">
+                  <p>Select your payment method</p>
+                  <label for="esewa">
+                    <a href="#"><img src="img/esewa.webp" alt=""></a>
+                    <input type="checkbox" id="esewa" name="payment-method" value="esewa">
+                  </label>
+                  <!-- <label for="paypal">
+                    <img src="images/Payment/paypal-784404_1280.webp" alt="">
+                    <input type="checkbox" id="paypal" name="payment-method" value="paypal">
+                  </label> -->
+                </div>
+                <a href="https://rc-epay.esewa.com.np/api/epay/main/v2/form"><button>Checkout</button></a>
+              </div>
+            <!-- <div class="qrcode">
+                <button class="normal"><a style="text-decoration: none;" href="https://rc-epay.esewa.com.np/api/epay/main/v2/form">Proceed to checkout</a></button>
+                <img src="img/qr.jpeg" alt="">
+             
+           </div> -->
+            
+        </div>
+    </section>
+
+    <!-- jQuery Script to Update Grand Total -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <!-- <script>
+        $(document).ready(function() {
+            // Function to update product subtotals and grand total
+            const updateTotals = () => {
+                let grandTotal = 0;
+
+                // Loop through each row in the cart
+                $('tbody tr').each(function() {
+                    const priceText = $(this).find('.per').text();
+                    const price = parseFloat(priceText.replace('Rs.', '').trim()); // Convert to number
+                    const quantity = parseInt($(this).find('.product-quantity').val()); // Get quantity
+                    const subtotal = price * quantity; // Calculate subtotal for this product
+
+                    $(this).find('.subtotal').text(`Rs.${subtotal.toFixed(2)}`); // Update displayed subtotal
+
+                    grandTotal += subtotal; // Add to grand total
+                });
+
+                // Update the grand total in the Cart Totals section
+                $('.grand-total').text(`Rs.${grandTotal.toFixed(2)}`);
+            };
+
+            // Trigger update when quantity changes
+            $('.product-quantity').on('input', updateTotals);
+
+            // Update totals on page load to ensure correctness
+            updateTotals();
+        });
+    </script> -->
+
+    <script>
+        $(document).ready(function() {
+    // Function to update product subtotals and grand total with error handling
+    const updateTotals = () => {
+        let grandTotal = 0;
+        let errorFound = false; // Flag to track if any NaN occurs
+
+        // Loop through each row in the cart
+        $('tbody tr').each(function() {
+            const priceText = $(this).find('.per').text().trim();
+            console.log('Price text:', priceText); // Debugging
+
+            // Extract numerical value from the price text
+            let price = parseFloat(priceText.replace(/[^\d.]/g, ''));
+            if (isNaN(price)) {
+                console.error('Invalid price found:', priceText); // Debugging
+                errorFound = true;
+                price = 0; // Default to 0 if there's an error
+            }
+
+            // Get quantity and ensure it's a valid number, at least 1
+            let quantity = parseInt($(this).find('.product-quantity').val());
+            if (isNaN(quantity) || quantity < 1) {
+                console.error('Invalid quantity found:', quantity); // Debugging
+
+</script>
+    
+
+
+    <!-- Footer Section -->
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logo" src="img/logo.png" alt="Company Logo">
+            <h4>Contact</h4>
+            <p><strong>Address:</strong> MangalBazar Road, Patan Sundara, Lalitpur</p>
+            <p><strong>Phone:</strong> +977 9822768092</p>
+            <p><strong>Hours:</strong> 10:00am-6:00pm, Mon-Fri</p>
+        </div>
+    </footer>
+
+</body>
+</html>
